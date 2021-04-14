@@ -5,12 +5,13 @@ from scipy.signal import get_window
 import matplotlib.pyplot as plt
 import math
 
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../software/models/'))
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                 '../../software/models/'))
 import stft
 import utilFunctions as UF
 
 eps = np.finfo(float).eps
-
 """
 A4-Part-4: Computing onset detection function (Optional)
 
@@ -67,6 +68,7 @@ piano notes (See figure in the accompanying pdf). You will notice exactly 6 peak
 10 dB value in the ODF computed on the high frequency band. 
 """
 
+
 def computeODF(inputFile, window, M, N, H):
     """
     Inputs:
@@ -83,5 +85,95 @@ def computeODF(inputFile, window, M, N, H):
             ODF[:,0]: ODF computed in band 0 < f < 3000 Hz 
             ODF[:,1]: ODF computed in band 3000 < f < 10000 Hz
     """
-    
+
     ### your code here
+
+    (fs, x) = UF.wavread(inputFile)
+
+    w = get_window(window, M, False)
+
+    mX, _ = stft.stftAnal(x, w, N, H)
+
+    mX_lin = 10**(mX / 20)
+
+    numFrames = int(mX.shape[0])
+    frmTime = H * np.arange(numFrames) / float(fs)
+    binFreq = np.arange(N / 2 + 1) * float(fs) / N
+
+    bins_low_fr = np.where((binFreq < 3000) & (binFreq > 0))
+    bins_high_fr = np.where((binFreq > 3000) & (binFreq < 10000))
+
+    engEnv = np.zeros([mX.shape[0], 2])
+    odf = np.zeros([mX.shape[0], 2])
+
+    for frame in range(frmTime.shape[0]):
+
+        mx_frame = np.squeeze(mX_lin[frame, :])
+        mx_low = mx_frame[bins_low_fr]
+        mx_high = mx_frame[bins_high_fr]
+
+        lowE = np.sum(np.square(mx_low))
+        highE = np.sum(np.square(mx_high))
+
+        lowdbE = 10 * np.log10(lowE)
+        highdbE = 10 * np.log10(highE)
+
+        engEnv[frame, 0] = lowdbE
+        engEnv[frame, 1] = highdbE
+
+        if (frame == 0):
+            continue
+
+        odf[frame, 0] = lowdbE - engEnv[frame - 1, 0]
+        odf[frame, 1] = highdbE - engEnv[frame - 1, 1]
+
+        # rectification
+        if odf[frame, 0] <= 0:
+            odf[frame, 0] = 0
+
+        if odf[frame, 1] <= 0:
+            odf[frame, 1] = 0
+
+    return odf, mX
+
+
+def testCase():
+    import loadTestCases
+    dict1 = loadTestCases.load(4, 3)
+    output = dict1['output']
+    input = dict1['input']
+
+    fs = 44100
+    odf, mX = computeODF(**input,)
+
+    print(output[0:3, :])
+    print("---")
+    print(odf[0:3, :])
+
+    plt.figure(1, figsize=(9.5, 6))
+    numFrames = int(mX.shape[0])
+    numFrames = int(mX.shape[0])
+    frmTime = input["H"] * np.arange(numFrames) / float(fs)
+    binFreq = np.arange(input["N"] / 2 + 1) * float(fs) / input["N"]
+
+    plt.subplot(211)
+    plt.pcolormesh(frmTime, binFreq, np.transpose(mX))
+    plt.title(f'mX ({input["inputFile"]}), M={input["M"]}, N={input["N"]}, H={input["H"]}')
+    plt.ylabel("dB")
+    plt.xlabel("Time (s)")
+    plt.autoscale(tight=True)
+
+    plt.subplot(212)
+    plt.bar(frmTime, odf[:, 0], color="b", width=0.01, label="ODF low band")
+    plt.bar(frmTime, odf[:, 1], color="r", width=0.01, label="ODF high band")
+    plt.legend()
+    plt.title('Onset detection function')
+    plt.xlabel("Time (s)")
+    plt.ylabel("dB")
+    plt.tight_layout()
+    plt.autoscale(tight=True)
+    #plt.savefig('spectrogram.png')
+    plt.show()
+
+
+testCase()
