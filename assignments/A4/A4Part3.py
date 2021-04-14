@@ -152,11 +152,11 @@ def testCase():
     print(engEnv[0:1, :])
     print(engEnv.shape)
 
-    plt.plot(output[:,0], 'b')
-    plt.plot(engEnv[:,0], 'r')
+    plt.plot(engEnv[:,0], 'b')
+    plt.plot(engEnv[:,1], 'r')
     plt.show()
   
 
 
-#testCase()
+testCase()
 
