@@ -144,7 +144,7 @@ def testCase():
     input = dict1['input']
 
     fs = 44100
-    odf, mX = computeODF(**input,)
+    odf, mX = computeODF(**input, )
 
     print(output[0:3, :])
     print("---")
@@ -158,7 +158,9 @@ def testCase():
 
     plt.subplot(211)
     plt.pcolormesh(frmTime, binFreq, np.transpose(mX))
-    plt.title(f'mX ({input["inputFile"]}), M={input["M"]}, N={input["N"]}, H={input["H"]}')
+    plt.title(
+        f'mX ({input["inputFile"]}), M={input["M"]}, N={input["N"]}, H={input["H"]}'
+    )
     plt.ylabel("dB")
     plt.xlabel("Time (s)")
     plt.autoscale(tight=True)
