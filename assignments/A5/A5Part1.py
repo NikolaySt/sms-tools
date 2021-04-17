@@ -68,6 +68,9 @@ def minFreqEstErr(inputFile, f):
     k = 1
     while True:
         M = 100 * k + 1
+
+        k = k + 1
+
         min_degree = int(np.ceil(np.log(M) / np.log(2)))
         N = 2**min_degree
 
@@ -79,12 +82,13 @@ def minFreqEstErr(inputFile, f):
 
         iploc, ipmag, ipphase = UF.peakInterp(mX, pX, ploc)
 
+        if (iploc.shape[0] == 0):
+            continue
+
         fEst = fs * iploc[0] / N
 
         if abs(fEst - f) < 0.05:
             break
-
-        k = k + 1
 
     return fEst, M, N
 
