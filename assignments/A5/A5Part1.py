@@ -74,9 +74,9 @@ def minFreqEstErr(inputFile, f):
         min_degree = int(np.ceil(np.log(M) / np.log(2)))
         N = 2**min_degree
 
-        w = get_window(window, M, True)
+        w = get_window(window, M)
         pos = int(0.5 * fs)
-        x1 = x[pos:pos + M]
+        x1 = x[pos - (M // 2 + 1):pos + M // 2]
         mX, pX = DFT.dftAnal(x1, w, N)
         ploc = UF.peakDetection(mX, t)
 
@@ -87,7 +87,9 @@ def minFreqEstErr(inputFile, f):
 
         fEst = fs * iploc[0] / N
 
-        if abs(fEst - f) < 0.05:
+        error = abs(fEst - f)
+
+        if error < 0.05:
             break
 
     return fEst, M, N
@@ -98,6 +100,12 @@ def minFreqEstErr(inputFile, f):
 def testCase():
     inputFile = "../../sounds/sine-490.wav"
     f = 490.0
+
+    inputFile = '../../sounds/sine-1000.wav'
+    f = 1000.0
+
+    inputFile = '../../sounds/sine-200.wav'
+    f = 200.0
     f, M, N = minFreqEstErr(inputFile, f)
     print(f, M, N)
 
