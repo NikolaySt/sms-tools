@@ -63,7 +63,9 @@ def chirpTracker(inputFile='../../sounds/chirp-150-190-linear.wav'):
     """
     # Analysis parameters: Modify values of the parameters marked XX
     fs, _ = UF.wavread(inputFile)
-    M = int(4 * fs  / (190-150))                              # Window size in samples
+    # blackman window mainloop bins = 4
+    blackman_mainlop_bins = 4
+    M = int(blackman_mainlop_bins * fs  / (190-150))                              # Window size in samples
     
     ### Go through the code below and understand it, do not modify anything ###    
     H = 128                                     # Hop size in samples
@@ -120,4 +122,4 @@ def genTrueFreqTracks(tStamps):
     return fTrack
     
 
-#print(chirpTracker())
+print(chirpTracker())
