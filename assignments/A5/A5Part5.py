@@ -36,11 +36,11 @@ def exploreSineModel(inputFile='../../sounds/multiSines.wav'):
             return True
             Discuss on the forum!
     """
-    window='hamming'                            # Window type
+    window='blackmanharris'                            # Window type
     M=3001                                      # Window size in sample
     N=4096                                      # FFT Size
     t=-80                                       # Threshold                
-    minSineDur=0.02                             # minimum duration of a sinusoid
+    minSineDur=0.04                             # minimum duration of a sinusoid
     maxnSines=15                                # Maximum number of sinusoids at any time frame
     freqDevOffset=10                            # minimum frequency deviation at 0Hz
     freqDevSlope=0.001                          # slope increase of minimum frequency deviation
@@ -97,3 +97,5 @@ def exploreSineModel(inputFile='../../sounds/multiSines.wav'):
     plt.tight_layout()
     plt.show()
     return True
+
+exploreSineModel()
