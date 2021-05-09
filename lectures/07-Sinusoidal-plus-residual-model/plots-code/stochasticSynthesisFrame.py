@@ -12,18 +12,19 @@ import utilFunctions as UF
 def stochasticModelFrame(x, w, N, stocf) :
 	# x: input array sound, w: analysis window, N: FFT size,  
 	# stocf: decimation factor of mag spectrum for stochastic analysis
-	hN = N/2+1                                               # size of positive spectrum
-	hM = (w.size)/2                                          # half analysis window size
+	hN = int(N/2+1)                                               # size of positive spectrum
+	hM = int((w.size)/2)                                          # half analysis window size
 	pin = hM                                                 # initialize sound pointer in middle of analysis window       
 	fftbuffer = np.zeros(N)                                  # initialize buffer for FFT
-	yw = np.zeros(w.size)                                    # initialize output sound frame
 	w = w / sum(w)                                           # normalize analysis window
+
 	#-----analysis-----             
-	xw = x[pin-hM:pin+hM] * w                              # window the input sound
+	xw = x[int(pin-hM):int(pin+hM)] * w                              # window the input sound
 	X = fft(xw)                                            # compute FFT
 	mX = 20 * np.log10( abs(X[:hN]) )                      # magnitude spectrum of positive frequencies
-	mXenv = resample(np.maximum(-200, mX), mX.size*stocf)  # decimate the mag spectrum     
+	mXenv = resample(np.maximum(-200, mX), int(mX.size*stocf))  # decimate the mag spectrum     
 	pX = np.angle(X[:hN])
+
 	#-----synthesis-----
 	mY = resample(mXenv, hN)                               # interpolate to original size
 	pY = 2*np.pi*np.random.rand(hN)                        # generate phase random values

@@ -24,7 +24,7 @@ mX, pX = STFT.stftAnal(x1, w, N, H)
 tfreq, tmag, tphase = SM.sineModelAnal(x1, fs, w, N, H, t, maxnSines, minSineDur, freqDevOffset, freqDevSlope)
 
 plt.figure(1, figsize=(9.5, 7))
-maxplotfreq = 800.0
+maxplotfreq = 2800.0
 maxplotbin = int(N*maxplotfreq/fs)
 numFrames = int(mX[:,0].size)
 frmTime = H*np.arange(numFrames)/float(fs)                             

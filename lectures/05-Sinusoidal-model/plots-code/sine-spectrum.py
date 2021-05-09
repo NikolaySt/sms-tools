@@ -8,9 +8,9 @@ import dftModel as DFT
 import utilFunctions as UF
 
 (fs, x) = UF.wavread('../../../sounds/sine-440.wav')
-M = 400
+M = 401
 x1 = x[2000:2000+M]
-N = 2048
+N = 512
 hM = int(M/2.0)
 w = np.hamming(M)
 mX, pX = DFT.dftAnal(x1, w, N)

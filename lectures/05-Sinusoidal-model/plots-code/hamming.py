@@ -23,7 +23,7 @@ mX1[:hN] = mX[hN:]
 mX1[N-hN:] = mX[:hN]      
 
 plt.subplot(2,1,2)
-plt.plot(M*np.arange(-hN, hN)/float(N), mX1-max(mX), 'r', lw=1.5)
+plt.plot(M*np.arange(-hN, hN)/float(N), mX-max(mX), 'r', lw=1.5)
 plt.axis([-hM,hM-1,-55,0])
 plt.title('mW')
 

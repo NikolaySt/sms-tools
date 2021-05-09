@@ -7,7 +7,7 @@ import utilFunctions as UF
 import dftModel as DF
 (fs, x) = UF.wavread('../../../sounds/oboe-A4.wav')
 w = np.hamming(401)
-N = 1024
+N = 512
 pin = 5000
 x1 = x[pin:pin+w.size]
 mX, pX = DF.dftAnal(x1, w, N)
