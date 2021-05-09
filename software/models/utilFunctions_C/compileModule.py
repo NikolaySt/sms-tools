@@ -30,5 +30,5 @@ sourcefiles = ["utilFunctions.c", "cutilFunctions.pyx"]
 
 setup(
     cmdclass = {'build_ext': build_ext},
-    ext_modules = [Extension("utilFunctions_C",sourcefiles, libraries=['m'], include_dirs=py_inc + np_inc)]
+    ext_modules = [Extension("utilFunctions_C",sourcefiles, include_dirs=py_inc + np_inc)]
   )
