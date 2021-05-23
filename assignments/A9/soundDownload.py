@@ -169,7 +169,7 @@ def downloadSoundsFreesound(queryText="",
 
 
 downloadSoundsFreesound(queryText="violin",
-                        API_Key="pRkC3lPsoFVML1RhngXC3TzOHn4eDENtI5pZnxmv",
+                        API_Key="",
                         outputDir="testDownload\\",
                         topNResults=20,
                         duration=(0, 8.5),
