@@ -101,10 +101,9 @@ def downloadSoundsFreesound(queryText="",
             normalized=1)
 
     outDir2 = os.path.join(outputDir, queryText)
-    if os.path.exists(
-            outDir2
-    ):  # If the directory exists, it deletes it and starts fresh
-        os.system("rm -r " + outDir2)
+    if os.path.exists(outDir2):
+        # If the directory exists, it deletes it and starts fresh
+        os.system("rmdir /s /q " + outDir2)
     os.mkdir(outDir2)
 
     pageNo = 1
@@ -127,7 +126,7 @@ def downloadSoundsFreesound(queryText="",
               str(sound.id))
         outDir1 = os.path.join(outputDir, queryText, str(sound.id))
         if os.path.exists(outDir1):
-            os.system("rm -r " + outDir1)
+            os.system("rmdir /s /q " + outDir1)
         os.system("mkdir " + outDir1)
 
         mp3Path = os.path.join(
@@ -152,7 +151,7 @@ def downloadSoundsFreesound(queryText="",
 
         except:
             if os.path.exists(outDir1):
-                os.system("rm -r " + outDir1)
+                os.system("rmdir /s /q " + outDir1)
 
         indCnt += 1
 
@@ -167,3 +166,11 @@ def downloadSoundsFreesound(queryText="",
     for elem in downloadedSounds:
         fid.write('\t'.join(elem) + '\n')
     fid.close()
+
+
+downloadSoundsFreesound(queryText="violin",
+                        API_Key="pRkC3lPsoFVML1RhngXC3TzOHn4eDENtI5pZnxmv",
+                        outputDir="testDownload\\",
+                        topNResults=20,
+                        duration=(0, 8.5),
+                        tag="single-note")
