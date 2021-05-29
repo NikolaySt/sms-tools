@@ -14,3 +14,21 @@ software/transformations_interface/output_sounds/*.wav
 *.obj
 *.pyd
 
+software/**/output_sounds/*
+
+assignments/**/*.json
+assignments/**/*.png
+assignments/**/*.wav
+assignments/**/*.mp3
+assignments/**/*.txt
+assignments/**/*.zip
+assignments/**/*.pdf
+
+lectures/**/*.json
+lectures/**/*.png
+lectures/**/*.wav
+lectures/**/*.mp3
+lectures/**/*.txt
+lectures/**/*.zip
+lectures/**/*.pdf
+
