@@ -168,9 +168,17 @@ def downloadSoundsFreesound(queryText="",
     fid.close()
 
 
-downloadSoundsFreesound(queryText="violin",
-                        API_Key="",
-                        outputDir="testDownload\\",
-                        topNResults=20,
-                        duration=(0, 8.5),
-                        tag="single-note")
+#instruments = [
+#    "violin", "guitar", "bassoon", "trumpet", "clarinet", "cello", "cymbals"
+#]
+instruments = [
+    #"guitar", "bassoon", "cello"
+    "human"
+]
+for q in instruments:
+    downloadSoundsFreesound(queryText=q,
+                            API_Key="pRkC3lPsoFVML1RhngXC3TzOHn4eDENtI5pZnxmv",
+                            outputDir="test\\",
+                            topNResults=20,
+                            duration=(5, 10),
+                            tag="male")
