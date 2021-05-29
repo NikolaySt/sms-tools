@@ -67,15 +67,18 @@ def hpsMorph(hfreq1, hmag1, stocEnv1, hfreq2, hmag2, stocEnv2, hfreqIntp, hmagIn
 	yhmag = np.zeros_like(hmag1)                             # create empty output matrix
 	ystocEnv = np.zeros_like(stocEnv1)                       # create empty output matrix
 	
-	for l in range(L1):                                      # generate morphed frames
+	for l in range(L1): 
+		start2 = min(int(round((L2* l) / float(L1 - 1))), hfreq2.shape[0] - 1)
+		
+		# generate morphed frames
 		# identify harmonics that are present in both frames
-		harmonics = np.intersect1d(np.array(np.nonzero(hfreq1[l,:]), dtype=np.int)[0], np.array(np.nonzero(hfreq2[int(round((L2*l)/float(L1-1))),:]), dtype=np.int)[0])
+		harmonics = np.intersect1d(np.array(np.nonzero(hfreq1[l,:]), dtype=np.int)[0], np.array(np.nonzero(hfreq2[start2,:]), dtype=np.int)[0])
 		# interpolate the frequencies of the existing harmonics
-		yhfreq[l,harmonics] =  (1-hfreqIndexes[l])* hfreq1[l,harmonics] + hfreqIndexes[l] * hfreq2[int(round((L2*l)/float(L1-1))),harmonics]
+		yhfreq[l,harmonics] =  (1-hfreqIndexes[l])* hfreq1[l,harmonics] + hfreqIndexes[l] * hfreq2[start2, harmonics]
 		# interpolate the magnitudes of the existing harmonics
-		yhmag[l,harmonics] =  (1-hmagIndexes[l])* hmag1[l,harmonics] + hmagIndexes[l] * hmag2[int(round((L2*l)/float(L1-1))),harmonics]
+		yhmag[l,harmonics] =  (1-hmagIndexes[l])* hmag1[l,harmonics] + hmagIndexes[l] * hmag2[start2, harmonics]
 		# interpolate the stochastic envelopes of both frames
-		ystocEnv[l,:] =  (1-stocIndexes[l])* stocEnv1[l,:] + stocIndexes[l] * stocEnv2[int(round((L2*l)/float(L1-1))),:]
+		ystocEnv[l,:] =  (1-stocIndexes[l])* stocEnv1[l,:] + stocIndexes[l] * stocEnv2[start2,:]
 	return yhfreq, yhmag, ystocEnv
 	
 

@@ -84,6 +84,7 @@ def stftMorph(x1, x2, fs, w1, N1, w2, N2, H1, smoothf, balancef):
 		mX2smooth = resample(np.maximum(-200, mX2), int(mX2.size*smoothf))       # smooth spectrum of second sound
 		mX2 = resample(mX2smooth, mX1.size)                                 # generate back the same size spectrum
 		mY = balancef * mX2 + (1-balancef) * mX1                            # generate output spectrum
+		#mY = mX2 + mX1
 	#-----synthesis-----
 		y[pin1-hM1_1:pin1+hM1_2] += H1*DFT.dftSynth(mY, pX1, M1)  # overlap-add to generate output sound
 		pin1 += H1                                     # advance sound pointer
